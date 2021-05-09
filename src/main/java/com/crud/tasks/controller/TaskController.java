@@ -4,6 +4,7 @@ import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.MediaType;
@@ -39,8 +40,8 @@ public class TaskController {
         );
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
-    public void deleteTask(@PathVariable Long taskId) throws TaskNotFoundException {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/deleteTask/")
+    public void deleteTask(@RequestParam Long taskId) throws TaskNotFoundException {
         if (service.getTask(taskId).isPresent()) {
             service.deleteTask(taskId);
         } else {
