@@ -2,15 +2,12 @@ package com.crud.tasks.controller;
 
 import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
-import com.crud.tasks.mapper.TaskMapper;
+import com.crud.tasks.trello.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,7 +37,7 @@ public class TaskController {
         );
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/deleteTask/")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/deleteTask")
     public void deleteTask(@RequestParam Long taskId) throws TaskNotFoundException {
         if (service.getTask(taskId).isPresent()) {
             service.deleteTask(taskId);
@@ -53,14 +50,15 @@ public class TaskController {
     @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
     public TaskDto updateTask(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
-        Task savedTask = service.saveTask(task);
-        return taskMapper.mapToTaskDto(savedTask);
+        service.saveTask(task);
+        return taskDto;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createTask", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createTask(@RequestBody TaskDto taskDto) {
+    public TaskDto createTask(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
         service.saveTask(task);
+        return taskDto;
 
     }
 }

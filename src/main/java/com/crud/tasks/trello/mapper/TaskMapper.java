@@ -1,4 +1,4 @@
-package com.crud.tasks.mapper;
+package com.crud.tasks.trello.mapper;
 
 import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
@@ -25,7 +25,7 @@ public class TaskMapper {
 
     public List<TaskDto> mapToTaskDtoList(final List<Task> taskList) {
         return taskList.stream()
-                .map(t -> new TaskDto(t.getId(), t.getTitle(), t.getContent()))
+                .map(this::mapToTaskDto)
                 .collect(Collectors.toList());
     }
 }
