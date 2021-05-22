@@ -24,7 +24,7 @@ public class EmailScheduler {
         if(size > 1) {
                message = "Currently in database you got: " + size + "task";
         }
-        simpleEmailService.send(
+        simpleEmailService.scheduleSend(
                 new Mail(
                         adminConfig.getAdminMail(),
                         SUBJECT,
